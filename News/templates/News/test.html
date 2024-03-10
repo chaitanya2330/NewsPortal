@@ -1,0 +1,184 @@
+{% extends 'customer/base.html' %}
+{% load crispy_forms_tags %}
+{% block head %}
+<style>
+// Responsive Bootstrap Tabs without JS
+.tabbable-responsive {
+  display: block;
+  min-width: 100%;
+  overflow-x: auto;
+
+  // Some tweaks for card-header
+  margin: 0px -21px -13px -21px;
+}
+
+.tabbable {
+    min-width: 100%;
+
+    .nav-tabs {
+      white-space: nowrap;
+      display: inline-block;
+      min-width: 100%;
+
+      // Some tweaks for card-header
+      padding: 0px 21px;
+
+      .nav-item {
+        display: inline-block;
+
+        .nav-link {
+          display: inline-block;
+        }
+      }
+    }
+}
+// ----- END
+
+// Some stylesheet for Elmah.io
+small {
+  font-size: 12px;
+}
+.card {
+  box-shadow: 0 5px 15px -5px rgba(0, 0, 0, 0.15);
+}
+a {
+  color: #0da58e;
+
+  &:hover {
+    color: #075e51;
+  }
+}
+.text-dark {
+  text-decoration: none !important;
+}
+.elmahio-ad {
+  background: #fff;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  overflow: hidden;
+
+  .logo {
+    background: #0da58e;
+    width: 60px;
+    height: 60px;
+    text-align: center;
+    line-height: 52px;
+    img {
+      width: 50px;
+    }
+  }
+  .motto {
+    width: 180px;
+    font-size: 12px;
+    font-weight: bolder;
+    padding: 12px;
+  }
+}
+
+</style>
+{% endblock %}
+{% block main %}
+<div class="container my-3">
+
+  <div class="card">
+    <div class="card-header">
+
+      <div class="d-flex">
+        <div class="title">
+          <h3>Forms Changes</h3>
+        </div>
+        <div class="ml-auto">
+          <a class="text-dark" href="https://elmah.io/?utm_source=codepen&utm_medium=social&utm_campaign=codepen" target="_blank">
+            <div class="elmahio-ad d-flex">
+              <div class="logo"><img src="https://elmah.io/images/logo.png" /></div>
+              <div class="motto d-none d-sm-block px-2">Would your users appreciate fewer errors?</div>
+            </div>
+          </a>
+        </div>
+      </div>
+      <br/>
+      <!-- START TABS DIV -->
+      <div class="tabbable-responsive">
+        <div class="tabbable">
+          <ul class="nav nav-tabs" id="myTab" role="tablist">
+            <li class="nav-item">
+              <a class="nav-link active" id="first-tab" data-toggle="tab" href="#first" role="tab" aria-controls="first" aria-selected="true">Basic Information</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" id="second-tab" data-toggle="tab" href="#second" role="tab" aria-controls="second" aria-selected="false">Password Change</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" id="third-tab" data-toggle="tab" href="#third" role="tab" aria-controls="third" aria-selected="false">Author Post</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" id="fourth-tab" data-toggle="tab" href="#fourth" role="tab" aria-controls="fourth" aria-selected="false">Fourth Tab</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="card-body">
+
+      <div class="tab-content">
+        <div class="tab-pane fade show active" id="first" role="tabpanel" aria-labelledby="first-tab">
+          <h5 class="card-title">Profile</h5>
+          <p class="card-text">
+                <div class="card bg-white mt-2 mb-5">
+                    <div class="card-body">
+                        <form method="POST" enctype="multipart/form-data">
+                            {% csrf_token %}
+                            {{ user_form|crispy }}
+                            {{ customer_form|crispy }}
+                            <input type="hidden" name="action" value="update_profile">
+                            <button type="submit" class="btn btn-warning ">Save</button>
+                        </form>
+                    </div>
+                </div>
+
+          </p>
+        </div>
+        <div class="tab-pane fade" id="second" role="tabpanel" aria-labelledby="second-tab">
+          <h5 class="card-title">Password Change</h5>
+          <p class="card-text">
+              <div class="card bg-white mt-2 mb-5">
+                  <div class="card-body">
+                      <form method="POST" enctype="multipart/form-data">
+                          {% csrf_token %}
+                          {{ password_form|crispy }}
+                          <input type="hidden" name="action" value="update_password">
+                          <button type="submit" class="btn btn-warning ">Save</button>
+                      </form>
+                  </div>
+              </div>
+          </p>
+        </div>
+        <div class="tab-pane fade" id="third" role="tabpanel" aria-labelledby="third-tab">
+          <h5 class="card-title">Update News</h5>
+          <p class="card-text">
+          <b class="text-secondary">Information</b><br/>
+          <div class="card bg-white mt-2 mb-5">
+              <div class="card-body">
+                  <form method="POST" enctype="multipart/form-data">
+                      {% csrf_token %}
+                      {{ News_form|crispy }}
+                      <input type="hidden" name="action" value="add_news">
+                      <button type="submit" value="submit" class="btn btn-warning ">Save</button>
+                  </form>
+              </div>
+          </div>
+
+
+          </p>
+        </div>
+        <div class="tab-pane fade" id="fourth" role="tabpanel" aria-labelledby="fourth-tab">
+          <h5 class="card-title">Fourth Tab header</h5>
+          <p class="card-text">Nulla dignissim justo sed nulla dignissim pellentesque. Maecenas rhoncus faucibus finibus. Mauris eget tincidunt metus. Morbi bibendum nunc sed nisl aliquam, sit amet lacinia lectus pharetra. Cras accumsan convallis risus. Morbi nisi libero, consequat eget leo vel, finibus rhoncus nulla. Mauris tempus risus quis efficitur sollicitudin. Suspendisse potenti. Quisque ut leo interdum ipsum tristique ultrices.</p>
+        </div>
+
+      <!-- END TABS DIV -->
+
+    </div>
+  </div>
+</div>
+</div>
+{% endblock %}

@@ -1,0 +1,96 @@
+{% load static %}
+{% url 'home' as home_url %}
+{% url 'health' as health_url %}
+{% url 'contact' as contact_url %}
+{% url 'login' as login_url %}
+{% url 'technology' as technology_url %}
+    <!-- Topbar Start -->
+    <div class="container-fluid d-none d-lg-block">
+        <div class="row align-items-center bg-dark px-lg-5">
+            <div class="col-lg-9">
+                <nav class="navbar navbar-expand-sm bg-dark p-0">
+                    <ul class="navbar-nav ml-n2">
+                        <li class="nav-item border-right border-secondary">
+                            <a class="nav-link text-body small" href="#">{% now "SHORT_DATETIME_FORMAT" %}</a>
+                        </li>
+                    </ul>
+                    Please note that this website only used for web development purpose only. It does not provide any accurate information. Some of the things were taken from the internet for guidance purpose.
+                </nav>
+            </div>
+            <div class="col-lg-3 text-right d-none d-md-block">
+                <nav class="navbar navbar-expand-sm bg-dark p-0">
+                    <ul class="navbar-nav ml-auto mr-n2">
+                        <li class="nav-item">
+                            <a class="nav-link text-body" href="#"><small class="fab fa-twitter"></small></a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-body" href="#"><small class="fab fa-facebook-f"></small></a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-body" href="#"><small class="fab fa-linkedin-in"></small></a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-body" href="#"><small class="fab fa-instagram"></small></a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-body" href="#"><small class="fab fa-google-plus-g"></small></a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-body" href="#"><small class="fab fa-youtube"></small></a>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+        <div class="row align-items-center bg-white py-3 px-lg-5">
+            <div class="col-lg-4">
+                <a href="{% url 'home' %}" class="navbar-brand p-0 d-none d-lg-block">
+                    <h1 class="m-0 display-4 text-uppercase text-primary">Online<span class="text-secondary font-weight-normal">News</span></h1>
+                </a>
+            </div>
+            <div class="col-lg-8 text-center text-lg-right">
+                <a href="https://htmlcodex.com"><img class="img-fluid" src="img/ads-728x90.png" alt=""></a>
+            </div>
+        </div>
+    </div>
+    <!-- Topbar End -->
+
+    <!-- Navbar Start -->
+    <div class="container-fluid p-0">
+        <nav class="navbar navbar-expand-lg bg-dark navbar-dark py-2 py-lg-0 px-lg-5">
+            <a href="index.html" class="navbar-brand d-block d-lg-none">
+                <h1 class="m-0 display-4 text-uppercase text-primary">Biz<span class="text-white font-weight-normal">News</span></h1>
+            </a>
+            <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbarCollapse">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse justify-content-between px-0 px-lg-3" id="navbarCollapse">
+                <div class="navbar-nav mr-auto py-0">
+
+                    <a href="{% url 'home' %}" class="nav-item nav-link {% if request.path == home_url %} active {% endif %}">Home</a>
+                    <a href="{% url 'health' %}" class="nav-item nav-link {% if request.path == health_url %} active {% endif %} ">Health</a>
+                    <a href="{% url 'technology' %}" class="nav-item nav-link {% if request.path == technology_url %} active {% endif %}">Technology</a>
+
+                    {% if user.is_authenticated %}
+                    <div class="nav-item dropdown">
+                        <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Accounts</a>
+                        <div class="dropdown-menu rounded-0 m-0">
+                            <a href="{% url 'profile' %}" class="dropdown-item">Profile</a>
+                            <a href="{% url 'logout' %}" class="dropdown-item">Logout</a>
+                        </div>
+                    </div>
+                    {% else %}
+                    <a href="{% url 'contact' %}" class="nav-item nav-link {% if request.path == contact_url %} active {% endif %}">Contact</a>
+                    <a href="{% url 'login' %}" class="nav-item nav-link {% if request.path == login_url %} active {% endif %}">Login</a>
+                    {% endif %}
+                </div>
+                <form class="d-flex input-group w-auto" action="{% url 'searchbar' %}" method="GET">
+                    {% csrf_token %}
+                    <input type="text" name="q" id="q" value="{{ request.GET.q }}" class="form-control" size="50" placeholder="Search Product" aria-label="Search"/>
+                    <button class="btn btn-outline-primary" value="Search" type="submit" data-mdb-ripple-color="dark">Search</button>
+                </form>
+            </div>
+        </nav>
+    </div>
+    <!-- Navbar End -->
+    <br/>

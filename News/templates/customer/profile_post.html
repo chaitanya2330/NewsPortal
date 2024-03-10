@@ -1,0 +1,17 @@
+{% extends 'customer/base.html' %}
+{% load crispy_forms_tags %}
+{% block main %}
+
+<b class="text-secondary">Information</b><br/>
+<div class="card bg-white mt-2 mb-5">
+    <div class="card-body">
+        <form method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+            {{ News_form|crispy }}
+            <input type="hidden" name="action">
+            <button type="submit" value="Submit" class="btn btn-warning ">Save</button>
+        </form>
+    </div>
+</div>
+
+{% endblock %}

@@ -1,0 +1,134 @@
+{% extends 'News/base.html' %}
+{% load static %}
+{% block head %}
+    <link href="{% static 'css/style.css' %}" rel="stylesheet">
+{% endblock %}
+{% block content %}
+
+
+<!-- News With Sidebar Start -->
+    <div class="container-fluid">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8">
+                    <!-- News Detail Start -->
+                    <!-- News Detail Start -->
+                    <div class="position-relative mb-3">
+
+
+                        <div class="bg-white border border-top-0 p-4">
+                            <h1 class="mb-3 text-secondary text-uppercase font-weight-bold">{{ object.title }}</h1>
+                            <div class="mb-3">
+                                <a class="badge badge-primary text-uppercase font-weight-semi-bold p-2 mr-2"
+                                    href="">{{ object.status }}</a>
+                                <a class="text-body" >{% now "SHORT_DATETIME_FORMAT" %}</a>
+                            </div>
+                            <br/>
+                            <img class="img-fluid w-100" src="{{ object.image.url }}" style="object-fit: cover;">
+                            <br/><br/>
+                            <p style="font-family: Gill Sans height:90px;"><b>{{ object.title_tags }}</b></p>
+                            <p>{{ object.paragraph1 }}</p>
+                            <p>{{object.paragraph2}}</p>
+                        </div>
+                        <div class="d-flex justify-content-between bg-white border border-top-0 p-4">
+                            <div class="d-flex align-items-center">
+                                <img class="rounded-circle mr-2" src="{% if object.author_image %}{{ object.author_image.url }}{% else %}{% static 'img/user.jpg' %}{% endif %}" width="25" height="25" alt="">
+                                <b>Written by</b> :<span><b><i>{{ object.author }}</i></b></span>
+                            </div>
+
+                        </div>
+                    </div>
+                    <!-- News Detail End -->
+
+
+                    <!-- Comment Form Start -->
+                    <div class="mb-3">
+                        <div class="section-title mb-0">
+                            <h4 class="m-0 text-uppercase font-weight-bold">Leave a comment</h4>
+                        </div>
+                        <div class="bg-white border border-top-0 p-4">
+                            <form action="{% url 'submit_review' object.id %}" method="POST">
+                                {% csrf_token %}
+                                    <div>
+                                        Review Title
+                                        <input type="text" class="form-control" name="subject" required>
+                                        <br>
+                                        Review
+                                        <textarea name="review" class="form-control" rows="4"></textarea>
+                                        <br/>
+                                        {% if request.user.is_authenticated %}
+                                        <input type="submit" value="Submit review" class="btn btn-primary">
+                                        {% else %}
+                                        <p> You must be logged in</p> <span><a href="{% url 'login' %}">Login now</a> </span>
+                                        {% endif %}
+                                    </div>
+                            </form>
+                            <br/>
+                        {% for reviewsdetail in reviewsdetails %}
+                            <div class="comments">
+                                <div class="d-flex flex-row mb-2"> <img src="" width="40" class="rounded-image">
+                                    <div class="d-flex flex-column ml-2"> <span class="name">{{ reviewsdetail.user }}</span> <small class="comment-text">{{ reviewsdetail.review }}</small>
+                                        <div class="d-flex flex-row align-items-center status"> <small>Like</small> <small>Reply</small> <small>Translate</small> <small>{{ reviewsdetail.created_date }}</small> </div>
+                                    </div>
+                                </div>
+                            </div>
+                        {% endfor %}
+                        </div>
+                    </div>
+                    <!-- Comment Form End -->
+                    {{ form }}
+                </div>
+
+
+                <div class="col-lg-4">
+                    <!-- Ads End -->
+
+                    <!-- Popular News Start -->
+                    <div class="mb-3">
+                        <div class="section-title mb-0">
+                            <h4 class="m-0 text-uppercase font-weight-bold">Related News</h4>
+                        </div>
+                        <div class="bg-white border border-top-0 p-3">
+                            {% for new in related %}
+                            <div class="d-flex align-items-center bg-white mb-3" style="height: 110px;">
+                                <img class="img-fluid" src="{{ new.image.url}}" alt="" style="height:100px; width:100px;">
+                                <div class="w-100 h-100 px-3 d-flex flex -column justify-content-center border border-left-0">
+                                    <div class="mb-2">
+                                        <a class="badge badge-primary text-uppercase font-weight-semi-bold p-1 mr-2" href="">{{ new.status }}</a>
+                                        <a class="text-body" href=""><small>Jan 01, 2045</small></a>
+                                    </div>
+                                    <a class="h6 m-0 text-secondary text-uppercase font-weight-bold" href="{% url 'news_detail' new.id %}">{{ new.title|truncatechars:30 }}</a>
+                                </div>
+                            </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                    <!-- Popular News End -->
+
+                    <!-- Tags Start -->
+                    <div class="mb-3">
+                        <div class="section-title mb-0">
+                            <h4 class="m-0 text-uppercase font-weight-bold">Tags</h4>
+                        </div>
+                        <div class="bg-white border border-top-0 p-3">
+                            <div class="d-flex flex-wrap m-n1">
+                                <a href="" class="btn btn-sm btn-outline-secondary m-1">Politics</a>
+                                <a href="" class="btn btn-sm btn-outline-secondary m-1">Business</a>
+                                <a href="" class="btn btn-sm btn-outline-secondary m-1">Corporate</a>
+                                <a href="" class="btn btn-sm btn-outline-secondary m-1">Business</a>
+                                <a href="" class="btn btn-sm btn-outline-secondary m-1">Health</a>
+                                <a href="" class="btn btn-sm btn-outline-secondary m-1">Education</a>
+                                <a href="" class="btn btn-sm btn-outline-secondary m-1">Science</a>
+                                <a href="" class="btn btn-sm btn-outline-secondary m-1">Business</a>
+                                <a href="" class="btn btn-sm btn-outline-secondary m-1">Foods</a>
+                                <a href="" class="btn btn-sm btn-outline-secondary m-1">Travel</a>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Tags End -->
+                </div>
+            </div>
+        </div>
+    </div>
+<!-- News With Sidebar End -->
+{% endblock %}
