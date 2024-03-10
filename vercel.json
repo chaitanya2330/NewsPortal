@@ -1,14 +1,15 @@
 {
-    "builds": [{
-        "src": "NewsPortal/wsgi.py",
-        "use": "@vercel/python",
-        "config": { "maxLambdaSize": "15mb", "runstime":"python3.9" }
+  "version": 2,
+  "builds": [
+    {
+      "src": "NewsPortal/wsgi.py",
+      "use": "@vercel/python"
     }
-    ],
-    "routes": [
-        {
-            "src": "/(.*)",
-            "dest": "NewsPortal/wsgi.py"
-        }
-    ]
+  ],
+  "routes": [
+    {
+      "src": "(.*)",
+      "dest": "NewsPortal/wsgi.py"
+    }
+  ]
 }
